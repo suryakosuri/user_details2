@@ -67,11 +67,3 @@ func (c *Controller) Ready() error {
 
 	return nil
 }
-
-func (c *Controller) FindUserDetails(userId string, ctx context.Context) ([]model.User, error){
-	var users []model.User
-
-	user, err := c.datasource.Mongo.FindUser(userId, ctx)
-	
-	return user
-}
