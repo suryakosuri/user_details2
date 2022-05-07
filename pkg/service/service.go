@@ -22,3 +22,28 @@ func ready(ctrl *controller.Controller) http.HandlerFunc {
 		}
 	}
 }
+
+func getUserDetails(ctrl controller.Ctrl) http.HandlerFunc{
+	return func(w http.ResponseWriter, r *http.Request){
+		vars := mux.Vars(r)
+		userId := vars["id"]
+		ctx := r.context()
+		userDetails, err := ctrl.FindUserDetails(userId, ctx)
+		if ctx.Err() != nil{
+			return
+		}
+	}
+}
+
+func injectUser(ctrl Controller.Ctrl) http.HandlerFunc{
+	return func(w http.ResponseWriter, r *http.Request){
+		var ur model.User
+		ctx := r.Context()
+		err := json.NewDecoder(r.Body).Decode(&ur)
+
+		id, err := ctrl.IngestUser(ur, ctx)
+		if ctx.Err() != nil {
+			return
+		}
+	}
+}
